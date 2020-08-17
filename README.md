@@ -22,6 +22,7 @@ sudo sh process_dataset.sh
 
 Note : If you already have the Imagenet dataset extracted into folders, you can simply link them here. The expected directory structure is very straightforward.
 
+```
 train/
 ├── n01440764
 │   ├── n01440764_10026.JPEG
@@ -34,5 +35,6 @@ val/
 │   ├── ILSVRC2012_val_00002138.JPEG
 │   ├── ......
 ├── ......
+```
 
 ## Installing relevant features and environment
