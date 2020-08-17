@@ -38,3 +38,18 @@ val/
 ```
 
 ## Installing relevant features and environment
+
+1. Create a new conda environment
+```
+conda create -n spatialnet python=3.6 -y & conda activate spatialnet
+```
+2. Install pytorch
+```
+conda install -c pytorch pytorch -y
+```
+3. Install other dependencies
+```
+conda install attrs numpy torchvision pillow tqdm -y
+```
+
+## Start training
