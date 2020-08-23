@@ -56,31 +56,36 @@ conda install attrs numpy torchvision pillow tqdm -y
 
 Training can be done using the `main_train_scratch.py` file as below. The model name can be `ResNet50`, `EfficientNet:n` or `SpatialNet:n`, where n is an integer between 0 to 7.
 ```
-python main_train_scratch.py --architecture <model_name> --batch 64 --num-tasks 8 --learning-rate 2e-2
+python main_train_scratch.py --architecture <model_name> --batch 64 --num-tasks 8 --learning-rate 2e-1
 ```
 
-Note that the num-tasks flag represents the number of GPUs available on the machine and the batch size represents the batch size on each GPU. For different configuration of the machine, adjust the num-tasks accordingly. If possible, make sure the num-tasks * batch product remains constant. For example, on a machine with 4 GPUs, run the following if enough memory is available per GPU. Otherwise learning rate might need to be adjusted.
+Note that the num-tasks flag represents the number of GPUs available on the machine and the batch size represents the batch size on each GPU. For different configuration of the machine, adjust the num-tasks accordingly. If possible, make sure the num-tasks * batch product remains constant. For example, on a machine with 4 GPUs, run the following if enough memory is available per GPU.
 ```
-python main_train_scratch.py --architecture <model_name> --batch 128 --num-tasks 4 --learning-rate 2e-2
+python main_train_scratch.py --architecture <model_name> --batch 128 --num-tasks 4 --learning-rate 2e-1
+```
+
+If the total batch size (num-tasks*batch) is not 512, learning rate also needs to be adjusted. The following formula can be used
+```
+learning-rate = 0.1*(Total Batch Size)/256
 ```
 
 ### Training ResNet50
 
 First train Resnet-50 on Imagenet to check the sanity of the code and replicate the expected accuracy. Run the command below to execute training and output the results in a logfile.
 ```
-python -u main_train_scratch.py --architecture ResNet50 --batch 64 --num-tasks 8 --learning-rate 2e-2 > logfile_resnet50.txt
+python -u main_train_scratch.py --architecture ResNet50 --batch 64 --num-tasks 8 --learning-rate 2e-1 > logfile_resnet50.txt
 ```
 
 ### Training EfficientNet
 
 After we are sure the code runs properly, by verifying the ResNet50 accuracy, we can shift to EfficientNet training to see if the same parameters work properly for this too. Run the command below to execute training and output the results in a logfile.
 ```
-python -u main_train_scratch.py --architecture EfficientNet:0 --batch 64 --num-tasks 8 --learning-rate 2e-2 > logfile_efficientnet0.txt
+python -u main_train_scratch.py --architecture EfficientNet:0 --batch 64 --num-tasks 8 --learning-rate 2e-1 > logfile_efficientnet0.txt
 ```
 
 ### Training SpatialNet
 
 Finally run our own model to compare with EfifcientNet. Run the command below to execute training and output the results in a logfile.
 ```
-python -u main_train_scratch.py --architecture SpatialNet:0 --batch 64 --num-tasks 8 --learning-rate 2e-2 > logfile_spatialnet0.txt
+python -u main_train_scratch.py --architecture SpatialNet:0 --batch 64 --num-tasks 8 --learning-rate 2e-1 > logfile_spatialnet0.txt
 ```
