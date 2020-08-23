@@ -8,11 +8,11 @@ import os
 import sys
 import uuid
 from pathlib import Path
-from imnet_resnet50_scratch import TrainerConfig, ClusterConfig, Trainer
+from imnet_train_scratch import TrainerConfig, ClusterConfig, Trainer
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 
-def run(input_sizes,learning_rate,epochs,batch,node,workers,imnet_path,shared_folder_path,job_id,local_rank,global_rank,num_tasks):
+def run(input_sizes,learning_rate,epochs,batch,node,workers,imnet_path,architecture,shared_folder_path,job_id,local_rank,global_rank,num_tasks):
     cluster_cfg = ClusterConfig(dist_backend="nccl", dist_url="")
     shared_folder=None
     data_folder_Path=None
@@ -36,6 +36,7 @@ def run(input_sizes,learning_rate,epochs,batch,node,workers,imnet_path,shared_fo
                     save_folder=str(shared_folder_path),
                     workers=workers,
                     imnet_path=imnet_path,
+                    architecture=architecture,
                     local_rank=local_rank,
                     global_rank=global_rank,
                     num_tasks=num_tasks,
@@ -73,10 +74,11 @@ if __name__ == "__main__":
     parser.add_argument('--node', default=1, type=int, help='GPU nodes')
     parser.add_argument('--workers', default=10, type=int, help='Numbers of CPUs')
     parser.add_argument('--imnet-path', default='data/imagenet/', type=str, help='ImageNet dataset path')
+    parser.add_argument('--architecture', default='ResNet50', type=str, help='Neural network architecture name')
     parser.add_argument('--shared-folder-path', default='shared_folder', type=str, help='Shared Folder')
     parser.add_argument('--job-id', default='0', type=str, help='id of the execution')
     parser.add_argument('--local-rank', default=0, type=int, help='GPU: Local rank')
-    parser.add_argument('--global-rank', default=0, type=int, help='GPU: glocal rank')
+    parser.add_argument('--global-rank', default=0, type=int, help='GPU: global rank')
     parser.add_argument('--num-tasks', default=8, type=int, help='How many GPUs are used')
     args = parser.parse_args()
-    run(args.input_size,args.learning_rate,args.epochs,args.batch,args.node,args.workers,args.imnet_path,args.shared_folder_path,args.job_id,args.local_rank,args.global_rank,args.num_tasks)
+    run(args.input_size,args.learning_rate,args.epochs,args.batch,args.node,args.workers,args.imnet_path,args.architecture,args.shared_folder_path,args.job_id,args.local_rank,args.global_rank,args.num_tasks)
