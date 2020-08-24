@@ -54,6 +54,7 @@ conda install attrs numpy torchvision pillow tqdm -y
 
 ## Start training
 
+### Understanding Training configuration flags
 Training can be done using the `main_train_scratch.py` file as below. The model name can be `ResNet50`, `EfficientNet:n` or `SpatialNet:n`, where n is an integer between 0 to 7.
 ```
 python main_train_scratch.py --architecture <model_name> --job-id some_id --batch 64 --num-tasks 8 --learning-rate 2e-1
