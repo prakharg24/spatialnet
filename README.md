@@ -59,12 +59,12 @@ Training can be done using the `main_train_scratch.py` file as below. The model 
 python main_train_scratch.py --architecture <model_name> --job-id some_id --batch 64 --num-tasks 8 --learning-rate 2e-1
 ```
 
-Note that the num-tasks flag represents the number of GPUs available on the machine and the batch size represents the batch size on each GPU. For different configuration of the machine, adjust the num-tasks accordingly. If possible, make sure the num-tasks * batch product remains constant. For example, on a machine with 4 GPUs, run the following if enough memory is available per GPU.
+Note that the num-tasks flag represents the number of GPUs available on the machine and the batch size represents the batch size on each GPU. For different configuration of the machine, adjust the num-tasks accordingly. **Make sure that the num-tasks are set properly according to the number of available GPUs on the machine, otherwise the code will be stuck (without errors) and won't train.** If possible, make sure the num-tasks * batch product remains constant. For example, on a machine with 4 GPUs, run the following if enough memory is available per GPU.
 ```
 python main_train_scratch.py --architecture <model_name> --job-id some_id --batch 128 --num-tasks 4 --learning-rate 2e-1
 ```
 
-If the total batch size (num-tasks*batch) is not 512, learning rate also needs to be adjusted. The following formula can be used
+If the total batch size (num-tasks * batch) is not 512, learning rate also needs to be adjusted. The following formula can be used
 ```
 learning-rate = 0.1*(Total Batch Size)/256
 ```
