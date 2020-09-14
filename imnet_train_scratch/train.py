@@ -152,9 +152,11 @@ class Trainer:
 
         model.cuda(self._train_cfg.local_rank)
         # summary(model, (3, 224, 224))
+        print("Architecture Setup Done", flush=True)
         model = torch.nn.parallel.DistributedDataParallel(
             model, device_ids=[self._train_cfg.local_rank], output_device=self._train_cfg.local_rank, find_unused_parameters=True
         )
+        print("Distributed model setup done", flush=True)
         linear_scaled_lr = 8.0 * self._train_cfg.lr * self._train_cfg.batch_per_gpu * self._train_cfg.num_tasks /512.0
         optimizer = optim.SGD(model.parameters(), lr=linear_scaled_lr, momentum=0.9,weight_decay=1e-4)
         lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=30)
@@ -167,6 +169,7 @@ class Trainer:
             self._state = TrainerState.load(checkpoint_fn, default=self._state)
 
     def _train(self) -> Optional[float]:
+        print("Training Starts", flush=True)
         criterion = nn.CrossEntropyLoss()
         print_freq = 100
         acc = None
